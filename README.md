@@ -85,21 +85,6 @@ You also need to install the dependencies required by React Native:
 - for [Android development](https://facebook.github.io/react-native/docs/getting-started.html#installing-dependencies-3)
 - for [iOS development](https://facebook.github.io/react-native/docs/getting-started.html#installing-dependencies)
 
-
-## Using the boilerplate
-
-To create a new project using the boilerplate:
-
-- clone this repository
-- remove the previous git history: `rm -rf .git/`
-- install the npm dependencies by running `yarn`
-- rename the React Native project to your own project name: `yarn run rename -- <YourProjectName>` (the default name is `Boilerplate`)
-- remove the LICENSE file and the "License" section from the README if your project is not open source
-
-Feel free to remove the section "Using the boilerplate" from the README (you will not need it anymore in your project). You are encouraged to keep the rest of the documentation in your project so that it is self-explanatory.
-
-You can now create a new git repository for your project (using `git init`) and create the first commit.
-
 ## Running the project
 
 Assuming you have all the requirements installed, you can setup and run the project by running:
