@@ -1,6 +1,7 @@
 import { createAppContainer, createStackNavigator } from 'react-navigation'
 import ListsScreen from 'App/Containers/Lists/ListsScreen'
 import ListDetailScreen from 'App/Containers/ListDetail/ListDetailScreen'
+import AddListItemScreen from 'App/Containers/ListDetail/AddListItemScreen'
 
 /**
  * The root screen contains the application's navigation.
@@ -14,6 +15,7 @@ const StackNavigator = createStackNavigator(
     //SplashScreen: SplashScreen,
     MainScreen: ListsScreen,
     ListDetailScreen: ListDetailScreen,
+    AddListItemScreen: AddListItemScreen,
   },
   {
     // By default the application will show the splash screen
