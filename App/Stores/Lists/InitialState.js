@@ -1,5 +1,5 @@
 export const INITIAL_STATE = {
   isNewListFormOpened: false,
-  isLoading: true,
+  isLoading: false,
   errorMessage: '',
 }
