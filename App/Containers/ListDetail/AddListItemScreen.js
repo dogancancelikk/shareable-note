@@ -16,7 +16,12 @@ const AddListItemScreen = ({ navigation }) => {
       </Header>
       <Content>
         <Item>
-          <Input placeholder="Enter new item .." value={itemValue} onChangeText={(inputValue) => setItemValue(inputValue)} />
+          <Input
+            placeholder="Enter new item .."
+            value={itemValue}
+            onChangeText={(inputValue) => setItemValue(inputValue)}
+            autoCorrect={false}
+          />
         </Item>
       </Content>
 
