@@ -1,8 +1,9 @@
 import React, { useState, Component } from 'react'
-import { Container, Header, Title, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, View, Fab, List, ListItem } from 'native-base'
-import Style from './ListsScreenStyle'
+import { Button, Right, Body, Icon, Text, View, Fab, List, ListItem } from 'native-base'
+import AppShell from '../../Components/AppShell/AppShell'
+import NavigationService from '../../Services/NavigationService'
 
-const ListsScreen = (props) => {
+const ListsScreen = ({ navigation }) => {
   const [active, setActive] = useState(false)
   const listData = [
     { id: '1', title: 'First List', desc: 'Its time to add new note . .' },
@@ -10,26 +11,14 @@ const ListsScreen = (props) => {
   ]
 
   return (
-    <Container>
-      <Header>
-        <Left>
-          <Button transparent>
-            <Icon name="menu" />
-          </Button>
-        </Left>
-        <Body>
-          <Title>My Lists</Title>
-        </Body>
-        <Right />
-      </Header>
-
+    <AppShell>
       <View style={{ flex: 1 }}>
         <List
           dataArray={listData}
           renderRow={({ title, desc }) => (
             <ListItem
               onPress={() => {
-                props.navigation.navigate('ListDetailScreen')
+                NavigationService.navigate('ListDetailScreen', { title: title })
               }}
             >
               <Body>
@@ -70,14 +59,7 @@ const ListsScreen = (props) => {
           </Button>
         </Fab>
       </View>
-      <Footer>
-        <FooterTab>
-          <Button full>
-            <Text>Sha-List</Text>
-          </Button>
-        </FooterTab>
-      </Footer>
-    </Container>
+    </AppShell>
   )
 }
 
