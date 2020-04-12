@@ -1,8 +1,10 @@
 import { takeLatest, all } from 'redux-saga/effects'
 import { ExampleTypes } from 'App/Stores/Example/Actions'
 import { StartupTypes } from 'App/Stores/Startup/Actions'
+import { CREATE_NEW_LIST } from 'App/Stores/Lists/Types'
 import { fetchUser } from './ExampleSaga'
 import { startup } from './StartupSaga'
+import { createList } from './ListsSaga'
 
 export default function* root() {
   yield all([
@@ -11,7 +13,7 @@ export default function* root() {
      */
     // Run the startup saga when the application starts
     takeLatest(StartupTypes.STARTUP, startup),
-    // Call `fetchUser()` when a `FETCH_USER` action is triggered
-    takeLatest(ExampleTypes.FETCH_USER, fetchUser),
+
+    takeLatest(CREATE_NEW_LIST, createList),
   ])
 }
