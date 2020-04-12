@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Container, CheckBox, Header, Title, Button, Left, Right, Body, Icon, Text, View, Fab, List, ListItem } from 'native-base'
+import { CheckBox, Body, Icon, Text, View, Fab, List, ListItem } from 'native-base'
 import NavigationService from '../../Services/NavigationService'
+import AppShell from '../../Components/AppShell/AppShell'
 
 const INITIAL_LIST = [
   { id: '1', title: 'Milk', isChecked: true },
@@ -17,19 +18,7 @@ const ListDetailScreen = ({ navigation }) => {
   }
 
   return (
-    <Container>
-      <Header>
-        <Left>
-          <Button transparent onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" />
-          </Button>
-        </Left>
-        <Body>
-          <Title>List Title</Title>
-        </Body>
-        <Right />
-      </Header>
-
+    <AppShell title={navigation.state.params.title}>
       <View style={{ flex: 1 }}>
         <List
           keyExtractor={(item) => item.id}
@@ -59,7 +48,7 @@ const ListDetailScreen = ({ navigation }) => {
           <Icon name="add" />
         </Fab>
       </View>
-    </Container>
+    </AppShell>
   )
 }
 
