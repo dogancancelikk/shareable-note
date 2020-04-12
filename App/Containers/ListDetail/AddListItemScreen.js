@@ -10,7 +10,12 @@ const AddListItemScreen = ({ navigation }) => {
     <AppShell>
       <Content>
         <Item>
-          <Input placeholder="Enter new item .." value={itemValue} onChangeText={(inputValue) => setItemValue(inputValue)} />
+          <Input
+            placeholder="Enter new item .."
+            value={itemValue}
+            onChangeText={(inputValue) => setItemValue(inputValue)}
+            autoCorrect={false}
+          />
         </Item>
       </Content>
 
