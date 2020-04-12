@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Right, Body, Icon, Text, View, Fab, List, ListItem } from 'native-base'
+import { Button, Icon, View, Fab, Spinner } from 'native-base'
 import AppShell from '../../Components/AppShell/AppShell'
-import NavigationService from '../../Services/NavigationService'
 import { db } from '../../Config/db'
-import ListService from '../../Services/ListService'
 import NewList from '../../Components/NewList/NewList'
 import ListOfLists from '../../Components/ListOfLists/ListOfLists'
+import { useSelector, useDispatch } from 'react-redux'
+import { closeNewListForm, openNewListForm } from '../../Stores/Lists/Actions'
 
 let listsRef = db.ref('lists')
 
 const ListsScreen = ({ navigation }) => {
-  const [active, setActive] = useState(false)
   const [listData, setListsData] = useState([])
-  const [isAddingNewList, setIsAddingNewList] = useState(false)
+  const { isNewListFormOpened, isLoading } = useSelector((state) => state.lists)
+  const [active, setActive] = useState(false)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     listsRef.on('value', (snapshot) => {
+      console.log(isNewListFormOpened)
       let data = snapshot.val()
       let items = Object.values(data)
       setListsData(items)
@@ -24,8 +26,7 @@ const ListsScreen = ({ navigation }) => {
 
   return (
     <AppShell>
-      <View style={{ flex: 1 }}>{!isAddingNewList ? <ListOfLists listData={listData} /> : <NewList />}</View>
-
+      {!isLoading ? <View style={{ flex: 1 }}>{!isNewListFormOpened ? <ListOfLists listData={listData} /> : <NewList />}</View> : <Spinner />}
       <Fab
         active={active}
         direction="up"
@@ -35,13 +36,11 @@ const ListsScreen = ({ navigation }) => {
         onPress={() => setActive(!active)}
       >
         <Icon name="share" />
-        <Button disabled style={{ backgroundColor: '#DD5144' }}>
-          <Icon name="mail" />
-        </Button>
-        <Button style={{ backgroundColor: '#3B5998' }}>
+
+        <Button style={{ backgroundColor: '#DD5144' }} onPress={() => dispatch(closeNewListForm())}>
           <Icon name="remove" />
         </Button>
-        <Button style={{ backgroundColor: '#34A34F' }} onPress={() => setIsAddingNewList(true)}>
+        <Button style={{ backgroundColor: '#34A34F' }} onPress={() => dispatch(openNewListForm())}>
           <Icon name="add" />
         </Button>
       </Fab>

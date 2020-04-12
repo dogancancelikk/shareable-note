@@ -3,9 +3,12 @@ import React, { useState } from 'react'
 import ListService from '../../Services/ListService'
 import style from './NewListStyle'
 import { Text } from 'native-base'
+import { useDispatch } from 'react-redux'
+import { createList } from '../../Stores/Lists/Actions'
 const NewList = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const dispatch = useDispatch()
   return (
     <Content>
       <Item>
@@ -18,7 +21,7 @@ const NewList = () => {
         style={style.button}
         onPress={() => {
           console.log(title + ' ' + description)
-          ListService.createList(title, description)
+          dispatch(createList(title, description))
         }}
       >
         <Text>Create New List</Text>
