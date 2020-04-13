@@ -11,38 +11,36 @@ const ListOfLists = (props) => {
     dispatch(deleteList(id))
   }
   return (
-    <Content>
-      <View style={{ flex: 1 }}>
-        <List
-          dataArray={props.listData}
-          keyExtractor={(item) => item.key}
-          renderItem={({ item }) => (
-            <ListItem
-              onPress={() => {
-                NavigationService.navigate('ListDetailScreen', { title: item.title })
-              }}
-            >
-              <Body>
-                <Text>{item.title}</Text>
-                <Text note numberOfLines={1}>
-                  {item.desc}
-                </Text>
-              </Body>
-              <Right>
-                {!isLoading ? (
-                  <Button transparent onPress={() => removeList(item.key)}>
-                    <Text>Delete</Text>
-                  </Button>
-                ) : (
-                  <Spinner />
-                )}
-              </Right>
-            </ListItem>
-          )}
-        />
-        <List />
-      </View>
-    </Content>
+    <View style={{ flex: 1 }}>
+      <List
+        dataArray={props.listData}
+        keyExtractor={(item) => item.key}
+        renderRow={({ key, title, desc }) => (
+          <ListItem
+            onPress={() => {
+              NavigationService.navigate('ListDetailScreen', { title: title })
+            }}
+          >
+            <Body>
+              <Text>{title}</Text>
+              <Text note numberOfLines={1}>
+                {desc}
+              </Text>
+            </Body>
+            <Right>
+              {!isLoading ? (
+                <Button transparent onPress={() => removeList(key)}>
+                  <Text>Delete</Text>
+                </Button>
+              ) : (
+                <Spinner />
+              )}
+            </Right>
+          </ListItem>
+        )}
+      />
+      <List />
+    </View>
   )
 }
 
