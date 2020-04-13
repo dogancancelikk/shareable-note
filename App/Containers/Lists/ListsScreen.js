@@ -9,7 +9,7 @@ import { closeNewListForm, openNewListForm } from '../../Stores/Lists/Actions'
 
 let listsRef = db.ref('lists')
 
-const ListsScreen = ({ navigation }) => {
+const ListsScreen = () => {
   const [listData, setListsData] = useState([])
   const { isNewListFormOpened, isLoading } = useSelector((state) => state.lists)
   const [active, setActive] = useState(false)
@@ -18,9 +18,13 @@ const ListsScreen = ({ navigation }) => {
   useEffect(() => {
     listsRef.on('value', (snapshot) => {
       console.log(isNewListFormOpened)
-      let data = snapshot.val()
-      let items = Object.values(data)
-      setListsData(items)
+      const listArray = []
+      snapshot.forEach((childSnapshot) => {
+        const childData = childSnapshot.val()
+        childData.key = childSnapshot.key
+        listArray.push(childData)
+      })
+      setListsData(listArray)
     })
   }, [])
 

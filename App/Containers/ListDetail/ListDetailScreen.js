@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Icon, Fab } from 'native-base'
-import { Animated, Dimensions, StyleSheet, View } from 'react-native'
+import { Animated, Dimensions, View } from 'react-native'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import NavigationService from '../../Services/NavigationService'
 import AppShell from '../../Components/AppShell/AppShell'

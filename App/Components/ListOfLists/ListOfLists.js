@@ -1,32 +1,41 @@
-import { Body, Button, Fab, Icon, List, ListItem, Right, Text, View, Content } from 'native-base'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Body, Button, List, ListItem, Right, Text, View, Content } from 'native-base'
 import NavigationService from '../../Services/NavigationService'
-import React, { useState } from 'react'
-import { closeNewListForm, openNewListForm } from '../../Stores/Lists/Actions'
-import { useDispatch } from 'react-redux'
+import { deleteList } from '../../Stores/Lists/Actions'
 
 const ListOfLists = (props) => {
+  const dispatch = useDispatch()
+  const { isLoading } = useSelector((state) => state.lists)
+  const removeList = (id) => {
+    dispatch(deleteList(id))
+  }
   return (
     <Content>
       <View style={{ flex: 1 }}>
         <List
           dataArray={props.listData}
-          keyExtractor={(item, index) => index.toString()}
-          renderRow={({ title, desc }) => (
+          keyExtractor={(item) => item.key}
+          renderItem={({ item }) => (
             <ListItem
               onPress={() => {
-                NavigationService.navigate('ListDetailScreen', { title: title })
+                NavigationService.navigate('ListDetailScreen', { title: item.title })
               }}
             >
               <Body>
-                <Text>{title}</Text>
+                <Text>{item.title}</Text>
                 <Text note numberOfLines={1}>
-                  {desc}
+                  {item.desc}
                 </Text>
               </Body>
               <Right>
-                <Button transparent>
-                  <Text>View</Text>
-                </Button>
+                {!isLoading ? (
+                  <Button transparent onPress={() => removeList(item.key)}>
+                    <Text>Delete</Text>
+                  </Button>
+                ) : (
+                  <Spinner />
+                )}
               </Right>
             </ListItem>
           )}

@@ -8,4 +8,8 @@ const createList = (title, description) => {
   })
 }
 
-export default { createList }
+const deleteList = (id) => {
+  db.ref(`lists/${id}`).remove()
+}
+
+export default { createList, deleteList }
