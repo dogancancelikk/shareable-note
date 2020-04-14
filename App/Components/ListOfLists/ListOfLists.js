@@ -1,12 +1,11 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Body, Button, List, ListItem, Right, Text, View, Content } from 'native-base'
+import { useDispatch } from 'react-redux'
+import { Body, Button, List, ListItem, Right, Text, View } from 'native-base'
 import NavigationService from '../../Services/NavigationService'
 import { deleteList } from '../../Stores/Lists/Actions'
 
 const ListOfLists = (props) => {
   const dispatch = useDispatch()
-  const { isLoading } = useSelector((state) => state.lists)
   const removeList = (id) => {
     dispatch(deleteList(id))
   }
@@ -18,7 +17,7 @@ const ListOfLists = (props) => {
         renderRow={({ key, title, desc }) => (
           <ListItem
             onPress={() => {
-              NavigationService.navigate('ListDetailScreen', { title: title })
+              NavigationService.navigate('ListDetailScreen', { title })
             }}
           >
             <Body>
@@ -28,13 +27,9 @@ const ListOfLists = (props) => {
               </Text>
             </Body>
             <Right>
-              {!isLoading ? (
-                <Button transparent onPress={() => removeList(key)}>
-                  <Text>Delete</Text>
-                </Button>
-              ) : (
-                <Spinner />
-              )}
+              <Button transparent onPress={() => removeList(key)}>
+                <Text>Delete</Text>
+              </Button>
             </Right>
           </ListItem>
         )}
