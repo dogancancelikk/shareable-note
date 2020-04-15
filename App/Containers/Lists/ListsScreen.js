@@ -17,7 +17,6 @@ const ListsScreen = () => {
 
   useEffect(() => {
     listsRef.on('value', (snapshot) => {
-      console.log(isNewListFormOpened)
       const listArray = []
       snapshot.forEach((childSnapshot) => {
         const childData = childSnapshot.val()

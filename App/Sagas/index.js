@@ -1,8 +1,8 @@
 import { takeLatest, all } from 'redux-saga/effects'
-import { StartupTypes } from 'App/Stores/Startup/Actions'
-import { CREATE_NEW_LIST, DELETE_LIST } from 'App/Stores/Lists/Types'
+import { StartupTypes } from '../Stores/Startup/Actions'
+import { CREATE_NEW_LIST, DELETE_LIST, ADD_LIST_ITEM } from '../Stores/Lists/Types'
 import { startup } from './StartupSaga'
-import { createList, deleteList } from './ListsSaga'
+import { createList, deleteList, addListItem } from './ListsSaga'
 
 export default function* root() {
   yield all([
@@ -15,5 +15,7 @@ export default function* root() {
     takeLatest(CREATE_NEW_LIST, createList),
 
     takeLatest(DELETE_LIST, deleteList),
+
+    takeLatest(ADD_LIST_ITEM, addListItem),
   ])
 }

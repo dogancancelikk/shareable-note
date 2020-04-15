@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Button, Content, Footer, FooterTab, Item, Input, Text } from 'native-base'
 import AppShell from '../../Components/AppShell/AppShell'
+import { addistItem } from '../../Stores/Lists/Actions'
 
 const AddListItemScreen = ({ navigation }) => {
   const [itemValue, setItemValue] = useState('')
-  const addFunction = navigation.getParam('addFunction')
+  const dispatch = useDispatch()
+  const listId = navigation.getParam('listId')
+
   const submitFunction = () => {
-    addFunction(itemValue)
+    dispatch(addistItem(listId, itemValue, false))
     navigation.goBack()
   }
 

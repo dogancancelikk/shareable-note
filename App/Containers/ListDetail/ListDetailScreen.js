@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Icon, Fab } from 'native-base'
 import { Animated, Dimensions, View } from 'react-native'
 import { SwipeListView } from 'react-native-swipe-list-view'
@@ -6,17 +6,25 @@ import NavigationService from '../../Services/NavigationService'
 import AppShell from '../../Components/AppShell/AppShell'
 import SwipeRowWithCheckBox from '../../Components/SwipeList/SwipeRowWithCheckBox'
 import SwipeRowHiddenItem from '../../Components/SwipeList/SwipeRowHiddenItem'
-
-const INITIAL_LIST = [
-  { id: '1', title: 'Milk', isChecked: true },
-  { id: '2', title: 'Butter', isChecked: false },
-  { id: '3', title: 'Coke', isChecked: false },
-  { id: '4', title: 'Peanut', isChecked: false },
-  { id: '5', title: 'Meat', isChecked: false },
-]
+import { db } from '../../Config/db'
 
 const ListDetailScreen = ({ navigation }) => {
-  const [listState, setListState] = useState(INITIAL_LIST)
+  const [listState, setListState] = useState([])
+  const listId = navigation.getParam('key')
+
+  let listItemsRef = db.ref(`lists/${listId}/items/`)
+
+  useEffect(() => {
+    listItemsRef.on('value', (snapshot) => {
+      const listArray = []
+      snapshot.forEach((childSnapshot) => {
+        const childData = childSnapshot.val()
+        childData.key = childSnapshot.key
+        listArray.push(childData)
+      })
+      setListState(listArray)
+    })
+  }, [])
 
   const checkItem = (index) => {
     const newArray = [...listState]
@@ -67,11 +75,7 @@ const ListDetailScreen = ({ navigation }) => {
           containerStyle={{}}
           style={{ backgroundColor: '#34A34F' }}
           position="bottomRight"
-          onPress={() =>
-            NavigationService.navigate('AddListItemScreen', {
-              addFunction: (title) => setListState([...listState, { id: (listState.length + 1).toString(), title: title, isChecked: false }]),
-            })
-          }
+          onPress={() => NavigationService.navigate('AddListItemScreen', { listId })}
         >
           <Icon name="add" />
         </Fab>

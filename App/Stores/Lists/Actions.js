@@ -7,6 +7,9 @@ import {
   DELETE_LIST,
   DELETE_LIST_SUCCESS,
   DELETE_LIST_FAILURE,
+  ADD_LIST_ITEM,
+  ADD_LIST_ITEM_SUCCESS,
+  ADD_LIST_ITEM_FAILURE,
 } from './Types'
 
 export function openNewListForm() {
@@ -59,6 +62,28 @@ export function deleteListSuccess() {
 export function deleteListFailure(errorMessage) {
   return {
     type: DELETE_LIST_FAILURE,
+    payload: errorMessage,
+  }
+}
+
+export function addistItem(listId, title, isChecked) {
+  return {
+    type: ADD_LIST_ITEM,
+    listId,
+    title,
+    isChecked,
+  }
+}
+
+export function addListItemSuccess() {
+  return {
+    type: ADD_LIST_ITEM_SUCCESS,
+  }
+}
+
+export function addListItemFailure(errorMessage) {
+  return {
+    type: ADD_LIST_ITEM_FAILURE,
     payload: errorMessage,
   }
 }

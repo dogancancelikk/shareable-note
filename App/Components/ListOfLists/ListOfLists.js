@@ -17,7 +17,7 @@ const ListOfLists = (props) => {
         renderRow={({ key, title, desc }) => (
           <ListItem
             onPress={() => {
-              NavigationService.navigate('ListDetailScreen', { title })
+              NavigationService.navigate('ListDetailScreen', { key, title })
             }}
           >
             <Body>
