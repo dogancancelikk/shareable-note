@@ -20,4 +20,8 @@ const addListItem = (listId, title, isChecked) => {
   })
 }
 
-export default { createList, deleteList, addListItem }
+const deleteListItem = (listId, itemId) => {
+  db.ref(`lists/${listId}/items/${itemId}`).remove()
+}
+
+export default { createList, deleteList, addListItem, deleteListItem }

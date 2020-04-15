@@ -10,6 +10,9 @@ import {
   ADD_LIST_ITEM,
   ADD_LIST_ITEM_SUCCESS,
   ADD_LIST_ITEM_FAILURE,
+  REMOVE_LIST_ITEM,
+  REMOVE_LIST_ITEM_SUCCESS,
+  REMOVE_LIST_ITEM_FAILURE,
 } from './Types'
 
 export function openNewListForm() {
@@ -66,7 +69,7 @@ export function deleteListFailure(errorMessage) {
   }
 }
 
-export function addistItem(listId, title, isChecked) {
+export function addListItem(listId, title, isChecked) {
   return {
     type: ADD_LIST_ITEM,
     listId,
@@ -84,6 +87,27 @@ export function addListItemSuccess() {
 export function addListItemFailure(errorMessage) {
   return {
     type: ADD_LIST_ITEM_FAILURE,
+    payload: errorMessage,
+  }
+}
+
+export function removeListItem(listId, itemId) {
+  return {
+    type: REMOVE_LIST_ITEM,
+    listId,
+    itemId,
+  }
+}
+
+export function removeListItemSuccess() {
+  return {
+    type: REMOVE_LIST_ITEM_SUCCESS,
+  }
+}
+
+export function removeListItemFailure(errorMessage) {
+  return {
+    type: REMOVE_LIST_ITEM_FAILURE,
     payload: errorMessage,
   }
 }

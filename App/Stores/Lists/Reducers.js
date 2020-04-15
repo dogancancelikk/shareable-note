@@ -12,6 +12,9 @@ import {
   ADD_LIST_ITEM,
   ADD_LIST_ITEM_SUCCESS,
   ADD_LIST_ITEM_FAILURE,
+  REMOVE_LIST_ITEM,
+  REMOVE_LIST_ITEM_SUCCESS,
+  REMOVE_LIST_ITEM_FAILURE,
 } from './Types'
 
 const openNewListForm = (state) => ({
@@ -73,6 +76,22 @@ const addListItemFailure = (state, action) => ({
   isLoading: false,
 })
 
+const removeListItem = (state) => ({
+  ...state,
+  isLoading: true,
+})
+
+const removeListItemSuccess = (state) => ({
+  ...state,
+  isLoading: false,
+})
+
+const removeListItemFailure = (state, action) => ({
+  ...state,
+  errorMessage: action.payload,
+  isLoading: false,
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [OPEN_NEW_LIST_FORM]: openNewListForm,
   [CLOSE_NEW_LIST_FORM]: closeNewListForm,
@@ -85,4 +104,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [ADD_LIST_ITEM]: addListItem,
   [ADD_LIST_ITEM_SUCCESS]: addListItemSuccess,
   [ADD_LIST_ITEM_FAILURE]: addListItemFailure,
+  [REMOVE_LIST_ITEM]: removeListItem,
+  [REMOVE_LIST_ITEM_SUCCESS]: removeListItemSuccess,
+  [REMOVE_LIST_ITEM_FAILURE]: removeListItemFailure,
 })

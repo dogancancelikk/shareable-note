@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Icon, Fab } from 'native-base'
 import { Animated, Dimensions, View } from 'react-native'
 import { SwipeListView } from 'react-native-swipe-list-view'
@@ -7,11 +8,12 @@ import AppShell from '../../Components/AppShell/AppShell'
 import SwipeRowWithCheckBox from '../../Components/SwipeList/SwipeRowWithCheckBox'
 import SwipeRowHiddenItem from '../../Components/SwipeList/SwipeRowHiddenItem'
 import { db } from '../../Config/db'
+import { removeListItem } from '../../Stores/Lists/Actions'
 
 const ListDetailScreen = ({ navigation }) => {
   const [listState, setListState] = useState([])
   const listId = navigation.getParam('key')
-
+  const dispatch = useDispatch()
   let listItemsRef = db.ref(`lists/${listId}/items/`)
 
   useEffect(() => {
@@ -32,21 +34,12 @@ const ListDetailScreen = ({ navigation }) => {
     setListState(newArray)
   }
 
-  const removeItem = (id) => {
-    const newArray = [...listState]
-    const prevIndex = listState.findIndex((item) => item.id === id)
-    newArray.splice(prevIndex, 1)
-    setListState(newArray)
-  }
-
   const onSwipeValueChange = ({ key, value }) => {
-    //TODO fix multiple calls to remove method
-    if (value < -Dimensions.get('window').width) {
-      Animated.timing(new Animated.Value(1), {
-        toValue: 0,
-        duration: 200,
-      }).start(() => {
-        removeItem(key)
+    if (!this.animationIsRunning && value < -Dimensions.get('window').width) {
+      this.animationIsRunning = true
+      Animated.timing(new Animated.Value(1), { toValue: 0, duration: 200 }).start(() => {
+        dispatch(removeListItem(listId, key))
+        this.animationIsRunning = false
       })
     }
   }
@@ -59,7 +52,6 @@ const ListDetailScreen = ({ navigation }) => {
     <AppShell title={navigation.state.params.title}>
       <View style={{ flex: 1 }}>
         <SwipeListView
-          keyExtractor={(item) => item.id}
           disableRightSwipe
           data={listState}
           renderItem={renderItem}

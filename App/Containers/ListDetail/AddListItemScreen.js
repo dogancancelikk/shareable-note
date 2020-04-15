@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button, Content, Footer, FooterTab, Item, Input, Text } from 'native-base'
 import AppShell from '../../Components/AppShell/AppShell'
-import { addistItem } from '../../Stores/Lists/Actions'
+import { addListItem } from '../../Stores/Lists/Actions'
 
 const AddListItemScreen = ({ navigation }) => {
   const [itemValue, setItemValue] = useState('')
@@ -10,7 +10,7 @@ const AddListItemScreen = ({ navigation }) => {
   const listId = navigation.getParam('listId')
 
   const submitFunction = () => {
-    dispatch(addistItem(listId, itemValue, false))
+    dispatch(addListItem(listId, itemValue, false))
     navigation.goBack()
   }
 
@@ -20,6 +20,7 @@ const AddListItemScreen = ({ navigation }) => {
         <Item>
           <Input
             placeholder="Enter new item .."
+            autoFocus
             value={itemValue}
             onChangeText={(inputValue) => setItemValue(inputValue)}
             autoCorrect={false}

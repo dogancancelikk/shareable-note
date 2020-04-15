@@ -7,6 +7,8 @@ import {
   deleteListFailure,
   addListItemSuccess,
   addListItemFailure,
+  removeListItemSuccess,
+  removeListItemFailure,
 } from '../Stores/Lists/Actions'
 
 export function* createList(action) {
@@ -33,5 +35,14 @@ export function* addListItem(action) {
     yield put(addListItemSuccess())
   } catch (e) {
     yield put(addListItemFailure(e))
+  }
+}
+
+export function* removeListItem(action) {
+  try {
+    yield call(() => ListService.deleteListItem(action.listId, action.itemId))
+    yield put(removeListItemSuccess())
+  } catch (e) {
+    yield put(removeListItemFailure(e))
   }
 }
