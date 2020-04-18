@@ -8,7 +8,7 @@ import AppShell from '../../Components/AppShell/AppShell'
 import SwipeRowWithCheckBox from '../../Components/SwipeList/SwipeRowWithCheckBox'
 import SwipeRowHiddenItem from '../../Components/SwipeList/SwipeRowHiddenItem'
 import { db } from '../../Config/db'
-import { removeListItem } from '../../Stores/Lists/Actions'
+import { removeListItem, updateListItem } from '../../Stores/ListItems/Actions'
 
 const ListDetailScreen = ({ navigation }) => {
   const [listState, setListState] = useState([])
@@ -28,10 +28,8 @@ const ListDetailScreen = ({ navigation }) => {
     })
   }, [])
 
-  const checkItem = (index) => {
-    const newArray = [...listState]
-    newArray[index].isChecked = !newArray[index].isChecked
-    setListState(newArray)
+  const checkItem = (itemId, isChecked) => {
+    dispatch(updateListItem(listId, itemId, isChecked))
   }
 
   const onSwipeValueChange = ({ key, value }) => {
@@ -45,7 +43,7 @@ const ListDetailScreen = ({ navigation }) => {
   }
 
   const renderItem = ({ item, index }) => (
-    <SwipeRowWithCheckBox title={item.title} isChecked={item.isChecked} onPressMethod={() => checkItem(index)} />
+    <SwipeRowWithCheckBox title={item.title} isChecked={item.isChecked} onPressMethod={() => checkItem(item.key, !item.isChecked)} />
   )
 
   return (
