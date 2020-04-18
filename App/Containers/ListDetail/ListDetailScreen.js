@@ -1,22 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Icon, Fab } from 'native-base'
-import { Animated, Dimensions, StyleSheet, View } from 'react-native'
+import { Animated, Dimensions, View } from 'react-native'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import NavigationService from '../../Services/NavigationService'
 import AppShell from '../../Components/AppShell/AppShell'
 import SwipeRowWithCheckBox from '../../Components/SwipeList/SwipeRowWithCheckBox'
 import SwipeRowHiddenItem from '../../Components/SwipeList/SwipeRowHiddenItem'
-
-const INITIAL_LIST = [
-  { id: '1', title: 'Milk', isChecked: true },
-  { id: '2', title: 'Butter', isChecked: false },
-  { id: '3', title: 'Coke', isChecked: false },
-  { id: '4', title: 'Peanut', isChecked: false },
-  { id: '5', title: 'Meat', isChecked: false },
-]
+import { db } from '../../Config/db'
+import { removeListItem } from '../../Stores/Lists/Actions'
 
 const ListDetailScreen = ({ navigation }) => {
-  const [listState, setListState] = useState(INITIAL_LIST)
+  const [listState, setListState] = useState([])
+  const listId = navigation.getParam('key')
+  const dispatch = useDispatch()
+  let listItemsRef = db.ref(`lists/${listId}/items/`)
+
+  useEffect(() => {
+    listItemsRef.on('value', (snapshot) => {
+      const listArray = []
+      snapshot.forEach((childSnapshot) => {
+        const childData = childSnapshot.val()
+        childData.key = childSnapshot.key
+        listArray.push(childData)
+      })
+      setListState(listArray)
+    })
+  }, [])
 
   const checkItem = (index) => {
     const newArray = [...listState]
@@ -24,21 +34,12 @@ const ListDetailScreen = ({ navigation }) => {
     setListState(newArray)
   }
 
-  const removeItem = (id) => {
-    const newArray = [...listState]
-    const prevIndex = listState.findIndex((item) => item.id === id)
-    newArray.splice(prevIndex, 1)
-    setListState(newArray)
-  }
-
   const onSwipeValueChange = ({ key, value }) => {
-    //TODO fix multiple calls to remove method
-    if (value < -Dimensions.get('window').width) {
-      Animated.timing(new Animated.Value(1), {
-        toValue: 0,
-        duration: 200,
-      }).start(() => {
-        removeItem(key)
+    if (!this.animationIsRunning && value < -Dimensions.get('window').width) {
+      this.animationIsRunning = true
+      Animated.timing(new Animated.Value(1), { toValue: 0, duration: 200 }).start(() => {
+        dispatch(removeListItem(listId, key))
+        this.animationIsRunning = false
       })
     }
   }
@@ -51,7 +52,6 @@ const ListDetailScreen = ({ navigation }) => {
     <AppShell title={navigation.state.params.title}>
       <View style={{ flex: 1 }}>
         <SwipeListView
-          keyExtractor={(item) => item.id}
           disableRightSwipe
           data={listState}
           renderItem={renderItem}
@@ -67,11 +67,7 @@ const ListDetailScreen = ({ navigation }) => {
           containerStyle={{}}
           style={{ backgroundColor: '#34A34F' }}
           position="bottomRight"
-          onPress={() =>
-            NavigationService.navigate('AddListItemScreen', {
-              addFunction: (title) => setListState([...listState, { id: (listState.length + 1).toString(), title: title, isChecked: false }]),
-            })
-          }
+          onPress={() => NavigationService.navigate('AddListItemScreen', { listId })}
         >
           <Icon name="add" />
         </Fab>

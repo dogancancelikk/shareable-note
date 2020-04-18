@@ -4,7 +4,7 @@ import { CheckBox, ListItem } from 'native-base'
 
 const SwipeRowWithCheckBox = ({ title, isChecked, onPressMethod }) => {
   return (
-    <Animated.View style={styles.rowFrontContainer}>
+    <Animated.View>
       <TouchableHighlight style={styles.rowFront} underlayColor={'#AAA'}>
         <ListItem>
           <CheckBox checked={isChecked} onPress={() => onPressMethod()} />
