@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Icon, Fab } from 'native-base'
-import { Animated, Dimensions, View } from 'react-native'
-import { SwipeListView } from 'react-native-swipe-list-view'
+import { View } from 'react-native'
 import NavigationService from '../../Services/NavigationService'
 import AppShell from '../../Components/AppShell/AppShell'
+import SwipeList from '../../Components/SwipeList/SwipeList'
 import SwipeRowWithCheckBox from '../../Components/SwipeList/SwipeRowWithCheckBox'
-import SwipeRowHiddenItem from '../../Components/SwipeList/SwipeRowHiddenItem'
 import { db } from '../../Config/db'
 import { removeListItem, updateListItem } from '../../Stores/ListItems/Actions'
 
@@ -33,34 +32,15 @@ const ListDetailScreen = ({ navigation }) => {
   const checkItem = (itemId, isChecked) => {
     dispatch(updateListItem(listId, itemId, isChecked))
   }
+  const deleteAction = (id) => dispatch(removeListItem(listId, id))
 
-  const onSwipeValueChange = ({ key, value }) => {
-    if (!this.animationIsRunning && value < -Dimensions.get('window').width) {
-      this.animationIsRunning = true
-      Animated.timing(new Animated.Value(1), { toValue: 0, duration: 200 }).start(() => {
-        dispatch(removeListItem(listId, key))
-        this.animationIsRunning = false
-      })
-    }
-  }
-
-  const renderItem = ({ item, index }) => (
+  const renderItem = ({ item }) => (
     <SwipeRowWithCheckBox title={item.title} isChecked={item.isChecked} onPressMethod={() => checkItem(item.key, !item.isChecked)} />
   )
 
   return (
     <AppShell title={navigation.state.params.title}>
-      <View style={{ flex: 1 }}>
-        <SwipeListView
-          disableRightSwipe
-          data={listState}
-          renderItem={renderItem}
-          renderHiddenItem={() => <SwipeRowHiddenItem />}
-          rightOpenValue={-Dimensions.get('window').width}
-          onSwipeValueChange={onSwipeValueChange}
-          useNativeDriver={false}
-        />
-      </View>
+      <SwipeList data={listState} renderItem={renderItem} deleteAction={deleteAction} />
       <View style={{ flex: 1 }}>
         <Fab
           direction="up"
