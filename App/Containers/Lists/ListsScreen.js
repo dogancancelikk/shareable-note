@@ -7,7 +7,7 @@ import ListOfLists from '../../Components/ListOfLists/ListOfLists'
 import { useSelector, useDispatch } from 'react-redux'
 import { closeNewListForm, openNewListForm } from '../../Stores/Lists/Actions'
 
-let listsRef = db.ref('lists')
+const listsRef = db.ref('lists')
 
 const ListsScreen = () => {
   const [listData, setListsData] = useState([])
@@ -16,7 +16,7 @@ const ListsScreen = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    listsRef.on('value', (snapshot) => {
+    const getLists = (snapshot) => {
       const listArray = []
       snapshot.forEach((childSnapshot) => {
         const childData = childSnapshot.val()
@@ -24,7 +24,9 @@ const ListsScreen = () => {
         listArray.push(childData)
       })
       setListsData(listArray)
-    })
+    }
+    listsRef.on('value', getLists)
+    return () => listsRef.off('value', getLists)
   }, [])
 
   return (

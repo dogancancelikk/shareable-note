@@ -14,10 +14,10 @@ const ListDetailScreen = ({ navigation }) => {
   const [listState, setListState] = useState([])
   const listId = navigation.getParam('key')
   const dispatch = useDispatch()
-  let listItemsRef = db.ref(`lists/${listId}/items/`)
+  const listItemsRef = db.ref(`lists/${listId}/items/`)
 
   useEffect(() => {
-    listItemsRef.on('value', (snapshot) => {
+    const getListItems = (snapshot) => {
       const listArray = []
       snapshot.forEach((childSnapshot) => {
         const childData = childSnapshot.val()
@@ -25,7 +25,9 @@ const ListDetailScreen = ({ navigation }) => {
         listArray.push(childData)
       })
       setListState(listArray)
-    })
+    }
+    listItemsRef.on('value', getListItems)
+    return () => listItemsRef.off('value', getListItems)
   }, [])
 
   const checkItem = (itemId, isChecked) => {

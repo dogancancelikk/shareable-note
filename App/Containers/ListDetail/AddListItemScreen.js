@@ -10,8 +10,10 @@ const AddListItemScreen = ({ navigation }) => {
   const listId = navigation.getParam('listId')
 
   const submitFunction = () => {
-    dispatch(addListItem(listId, itemValue, false))
-    navigation.goBack()
+    if (itemValue !== '') {
+      dispatch(addListItem(listId, itemValue, false))
+      navigation.goBack()
+    }
   }
 
   return (
