@@ -1,0 +1,10 @@
+{
+  //eslint
+  "eslint.alwaysShowStatus": true,
+  "eslint.validate": ["javascript", "javascriptreact"],
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
