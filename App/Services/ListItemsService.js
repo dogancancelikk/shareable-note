@@ -1,7 +1,7 @@
-import { db } from '../Config/db'
+import { db, auth } from '../Config/db'
 
 const addListItem = (listId, title, isChecked) => {
-  let listItemsRef = db.ref(`lists/${listId}/items`)
+  let listItemsRef = db.ref(`users/${auth.currentUser.uid}/lists/${listId}/items`)
   listItemsRef.push({
     title,
     isChecked,
@@ -9,11 +9,11 @@ const addListItem = (listId, title, isChecked) => {
 }
 
 const deleteListItem = (listId, itemId) => {
-  db.ref(`lists/${listId}/items/${itemId}`).remove()
+  db.ref(`users/${auth.currentUser.uid}/lists/${listId}/items/${itemId}`).remove()
 }
 
 const updateListItem = (listId, itemId, isChecked) => {
-  db.ref(`lists/${listId}/items/${itemId}`).update({ isChecked })
+  db.ref(`users/${auth.currentUser.uid}/lists/${listId}/items/${itemId}`).update({ isChecked })
 }
 
 export default { addListItem, deleteListItem, updateListItem }

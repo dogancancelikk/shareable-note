@@ -6,14 +6,14 @@ import NavigationService from '../../Services/NavigationService'
 import AppShell from '../../Components/AppShell/AppShell'
 import SwipeList from '../../Components/SwipeList/SwipeList'
 import SwipeRowWithCheckBox from '../../Components/SwipeList/SwipeRowWithCheckBox'
-import { db } from '../../Config/db'
+import { db, auth } from '../../Config/db'
 import { removeListItem, updateListItem } from '../../Stores/ListItems/Actions'
 
 const ListDetailScreen = ({ navigation }) => {
   const [listState, setListState] = useState([])
   const listId = navigation.getParam('key')
   const dispatch = useDispatch()
-  const listItemsRef = db.ref(`lists/${listId}/items/`)
+  const listItemsRef = db.ref(`users/${auth.currentUser.uid}/lists/${listId}/items/`)
 
   useEffect(() => {
     const getListItems = (snapshot) => {

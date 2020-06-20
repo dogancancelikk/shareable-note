@@ -1,7 +1,7 @@
-import { db } from '../Config/db'
+import { db, auth } from '../Config/db'
 
 const createList = (title, description) => {
-  let listsRef = db.ref('lists')
+  let listsRef = db.ref(`users/${auth.currentUser.uid}/lists`)
   listsRef.push({
     title,
     description,
@@ -9,7 +9,7 @@ const createList = (title, description) => {
 }
 
 const deleteList = (id) => {
-  db.ref(`lists/${id}`).remove()
+  db.ref(`users/${auth.currentUser.uid}/lists/${id}`).remove()
 }
 
 export default { createList, deleteList }
