@@ -31,7 +31,7 @@ const AppShell = (props) => {
         <Right style={styles.rightItem}>
           {auth.currentUser ? (
             <Button iconRight transparent onPress={logout}>
-              <Icon style={styles.icon} name="logout-variant" type="MaterialCommunityIcons" />
+              <Icon style={styles.icon} name="logout" type="MaterialCommunityIcons" />
             </Button>
           ) : (
             <View></View>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   rightItem: {
-    flex: 1,
+    flex: 1.5,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
