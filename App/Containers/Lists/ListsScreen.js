@@ -7,10 +7,9 @@ import ListOfLists from '../../Components/ListOfLists/ListOfLists'
 import { useSelector, useDispatch } from 'react-redux'
 import { closeNewListForm, openNewListForm } from '../../Stores/Lists/Actions'
 
-const userId = auth.currentUser ? auth.currentUser.uid : 'public'
-const listsRef = db.ref(`users/${userId}/lists`)
-
 const ListsScreen = () => {
+  const userId = auth.currentUser ? auth.currentUser.uid : 'public'
+  const listsRef = db.ref(`users/${userId}/lists`)
   const [listData, setListsData] = useState([])
   const { isNewListFormOpened, isLoading } = useSelector((state) => state.lists)
   const [active, setActive] = useState(false)

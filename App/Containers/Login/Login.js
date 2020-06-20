@@ -14,13 +14,13 @@ const Login = () => {
   const handleLogin = () => {
     auth
       .signInWithEmailAndPassword(email, password)
-      .then(() => NavigationService.navigate('MainScreen'))
+      .then(() => NavigationService.navigateAndReset('MainScreen'))
       .catch((error) => setErrorMessage(error.message))
   }
   const handleSignUp = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
-      .then(() => NavigationService.navigate('MainScreen'))
+      .then(() => NavigationService.navigateAndReset('MainScreen'))
       .catch((error) => setErrorMessage(error.message))
   }
 

@@ -5,7 +5,7 @@ import NavigationService from '../../Services/NavigationService'
 
 const Loading = () => {
   const onAuthStateChanged = (user) => {
-    NavigationService.navigate(user ? 'ListsScreen' : 'Login')
+    NavigationService.navigateAndReset(user ? 'ListsScreen' : 'Login')
   }
   useEffect(() => {
     const subscriber = auth.onAuthStateChanged(onAuthStateChanged)

@@ -13,7 +13,7 @@ const ListDetailScreen = ({ navigation }) => {
   const [listState, setListState] = useState([])
   const listId = navigation.getParam('key')
   const dispatch = useDispatch()
-  const listItemsRef = db.ref(`users/${auth.currentUser.uid}/lists/${listId}/items/`)
+  const listItemsRef = db.ref(`users/${auth.currentUser?.uid}/lists/${listId}/items/`)
 
   useEffect(() => {
     const getListItems = (snapshot) => {
