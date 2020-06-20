@@ -1,7 +1,9 @@
 import { createAppContainer, createStackNavigator } from 'react-navigation'
+import Loading from 'App/Containers/Loading/Loading'
 import ListsScreen from 'App/Containers/Lists/ListsScreen'
 import ListDetailScreen from 'App/Containers/ListDetail/ListDetailScreen'
 import AddListItemScreen from 'App/Containers/ListDetail/AddListItemScreen'
+import Login from 'App/Containers/Login/Login'
 
 /**
  * The root screen contains the application's navigation.
@@ -13,12 +15,13 @@ const StackNavigator = createStackNavigator(
     // Create the application routes here (the key is the route name, the value is the target screen)
     // See https://reactnavigation.org/docs/en/stack-navigator.html#routeconfigs
     // SplashScreen: SplashScreen,
-    MainScreen: ListsScreen,
+    MainScreen: Loading,
+    ListsScreen: ListsScreen,
     ListDetailScreen: ListDetailScreen,
     AddListItemScreen: AddListItemScreen,
+    Login: Login,
   },
   {
-    // By default the application will show the splash screen
     initialRouteName: 'MainScreen',
     // See https://reactnavigation.org/docs/en/stack-navigator.html#stacknavigatorconfig
     headerMode: 'none',

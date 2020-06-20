@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Icon, View, Fab, Spinner } from 'native-base'
 import AppShell from '../../Components/AppShell/AppShell'
-import { db } from '../../Config/db'
+import { db, auth } from '../../Config/db'
 import NewList from '../../Components/NewList/NewList'
 import ListOfLists from '../../Components/ListOfLists/ListOfLists'
 import { useSelector, useDispatch } from 'react-redux'
 import { closeNewListForm, openNewListForm } from '../../Stores/Lists/Actions'
 
-const listsRef = db.ref('lists')
-
 const ListsScreen = () => {
+  const userId = auth.currentUser ? auth.currentUser.uid : 'public'
+  const listsRef = db.ref(`users/${userId}/lists`)
   const [listData, setListsData] = useState([])
   const { isNewListFormOpened, isLoading } = useSelector((state) => state.lists)
   const [active, setActive] = useState(false)
